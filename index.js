@@ -18,7 +18,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "*",
-  })    
+  })
 );
 const { connection } = require("./confige/confige");
 const { UserModel } = require("./models/user.model");
@@ -28,7 +28,7 @@ const { authorise } = require("./middleware/authorise");
 const { generateOtpRouter } = require("./routes/generateotpmail");
 const { newtokenRouter } = require("./routes/newtoken");
 const { ProjectRouter } = require("./routes/projects");
-const {sendMail}=require("./routes/sendMail");
+const {appointmentRouter}=require("./routes/sendMail");
 // add Data To Backend
 const {addRouter}=require("./routes/addDataToBackend")
 app.get("/", (req, res) => {
@@ -38,14 +38,15 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRouter);
 
-//app.use(authenticate)
+app.use(authenticate)
 app.use("/product", ProjectRouter);
 app.use("/", newtokenRouter);
+app.use("/book", appointmentRouter)
 
 //additional requirements
 // app.use(authenticate)
 
-//additional routers
+//additional outers
 app.use("/addDataToBackend",addRouter)
 app.listen(process.env.port, async () => {
   try {
